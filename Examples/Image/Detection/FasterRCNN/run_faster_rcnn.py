@@ -6,7 +6,8 @@
 
 import os
 import numpy as np
-from FasterRCNN_train import prepare, train_faster_rcnn
+import cntk
+from FasterRCNN_train import prepare, train_faster_rcnn, store_eval_model_with_native_udf
 from FasterRCNN_eval import compute_test_set_aps, FasterRCNN_Evaluator
 from utils.config_helpers import merge_configs
 from utils.plot_helpers import plot_test_set_results
@@ -42,3 +43,8 @@ if __name__ == '__main__':
         results_folder = os.path.join(cfg.OUTPUT_PATH, cfg["DATA"].DATASET)
         evaluator = FasterRCNN_Evaluator(trained_model, cfg)
         plot_test_set_results(evaluator, num_eval, results_folder, cfg)
+
+    if cfg.STORE_EVAL_MODEL_WITH_NATIVE_UDF:
+        store_eval_model_with_native_udf(trained_model, cfg)
+
+

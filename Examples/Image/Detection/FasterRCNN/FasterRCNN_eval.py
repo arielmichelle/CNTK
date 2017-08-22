@@ -15,55 +15,7 @@ from utils.map_helpers import evaluate_detections
 from utils.plot_helpers import load_resize_and_pad, resize_and_pad, visualize_detections
 from utils.rpn.bbox_transform import regress_rois
 from utils.od_mb_source import ObjectDetectionMinibatchSource
-from utils.proposal_helpers import ProposalProvider, compute_proposals, compute_image_stats
-
-class FastRCNN_Evaluator:
-    def __init__(self, eval_model, cfg):
-        # load model once in constructor and push images through the model in 'process_image()'
-        self._img_shape = (cfg.NUM_CHANNELS, cfg.IMAGE_HEIGHT, cfg.IMAGE_WIDTH)
-        image_input = input_variable(shape=self._img_shape,
-                                     dynamic_axes=[Axis.default_batch_axis()],
-                                     name=cfg["MODEL"].FEATURE_NODE_NAME)
-        roi_proposals = input_variable((cfg.NUM_ROI_PROPOSALS, 4), dynamic_axes=[Axis.default_batch_axis()],
-                                       name="roi_proposals")
-        self._eval_model = eval_model(image_input, roi_proposals)
-        self._min_w = cfg['PROPOSALS_MIN_W']
-        self._min_h = cfg['PROPOSALS_MIN_H']
-        self._num_proposals = cfg['NUM_ROI_PROPOSALS']
-
-    def process_image(self, img_path):
-        out_cls_pred, out_rpn_rois, out_bbox_regr, dims = self.process_image_detailed(img_path)
-        labels = out_cls_pred.argmax(axis=1)
-        regressed_rois = regress_rois(out_rpn_rois, out_bbox_regr, labels, dims)
-
-        return regressed_rois, out_cls_pred
-
-    def process_image_detailed(self, img_path):
-        img = cv2.imread(img_path)
-        _, cntk_img_input, dims = resize_and_pad(img, self._img_shape[2], self._img_shape[1])
-
-        #import pdb; pdb.set_trace()
-
-        # compute ROI proposals and apply scaling and padding to them
-        # [target_w, target_h, img_width, img_height, top, bottom, left, right, scale_factor]
-        img_stats = compute_image_stats(len(img[0]), len(img), self._img_shape[2], self._img_shape[1])
-        scale_factor = img_stats[-1]
-        top = img_stats[4]
-        left = img_stats[6]
-
-        proposals = compute_proposals(img, self._num_proposals, self._min_w, self._min_h)
-        proposals = proposals * scale_factor
-        proposals += (left, top, left, top)
-
-        output = self._eval_model.eval({self._eval_model.arguments[0]: [cntk_img_input],
-                                        self._eval_model.arguments[1]: np.array(proposals, dtype=np.float32)})
-
-        out_dict = dict([(k.name, k) for k in output])
-        out_cls_pred = output[out_dict['cls_pred']][0]
-        out_rpn_rois = proposals
-        out_bbox_regr = output[out_dict['bbox_regr']][0]
-
-        return out_cls_pred, out_rpn_rois, out_bbox_regr, dims
+from utils.proposal_helpers import ProposalProvider, compute_image_stats
 
 class FasterRCNN_Evaluator:
     def __init__(self, eval_model, cfg):

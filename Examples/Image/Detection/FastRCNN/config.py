@@ -16,26 +16,26 @@ __C.CNTK = edict()
 __C.TRAIN = edict()
 
 # If set to 'True' training will be skipped if a trained model exists already
-__C.CNTK.MAKE_MODE = True
-# set to 'True' to use determininistic algorithms
+__C.CNTK.MAKE_MODE = False
+# set to 'True' to use deterministic algorithms
 __C.CNTK.FORCE_DETERMINISTIC = False
 # set to 'True' to run only a single epoch
 __C.CNTK.FAST_MODE = False
 # Debug parameters
-__C.CNTK.DEBUG_OUTPUT = False
+__C.CNTK.DEBUG_OUTPUT = True
 __C.CNTK.GRAPH_TYPE = "png" # "png" or "pdf"
 
 # Learning parameters
 __C.CNTK.L2_REG_WEIGHT = 0.0005
 __C.CNTK.MOMENTUM_PER_MB = 0.9
-__C.CNTK.MAX_EPOCHS = 15 # use more epochs and more ROIs (NUM_ROI_PROPOSALS) for better results
+__C.CNTK.MAX_EPOCHS = 20 # use more epochs and more ROIs (NUM_ROI_PROPOSALS) for better results
 __C.CNTK.LR_FACTOR = 1.0
 __C.CNTK.LR_PER_SAMPLE = [0.001] * 10 + [0.0001] * 10 + [0.00001]
 # The learning rate multiplier for all bias weights
 __C.CNTK.BIAS_LR_MULT = 2.0
 
 # Number of regions of interest [ROIs] proposals
-__C.NUM_ROI_PROPOSALS = 500 # use 2000 or more for good results
+__C.NUM_ROI_PROPOSALS = 200 # use 2000 or more for good results
 # minimum width and height for proposals in pixels
 __C.PROPOSALS_MIN_W = 20
 __C.PROPOSALS_MIN_H = 20
@@ -53,7 +53,7 @@ __C.IMAGE_WIDTH = 850
 __C.IMAGE_HEIGHT = 850
 
 # Use horizontally-flipped images during training?
-__C.TRAIN.USE_FLIPPED = False
+__C.TRAIN.USE_FLIPPED = True
 # If set to 'True' conv layers weights from the base model will be trained, too
 __C.TRAIN_CONV_LAYERS = True
 # Sigma parameter for smooth L1 loss in the RPN and the detector (DET)
@@ -71,6 +71,29 @@ __C.DRAW_UNREGRESSED_ROIS = False
 # only for plotting results: boxes with a score lower than this threshold will be considered background
 __C.RESULTS_BGR_PLOT_THRESHOLD = 0.1
 
+# roi proposal parameters for selective search, grid and filtering
+# use selective search implementation from dlib (requires dlib package)
+__C.use_dlib_proposals = True
+# Higher means larger clusters in felzenszwalb segmentation.
+__C.roi_ss_scale = 100
+# Width of Gaussian kernel for felzenszwalb segmentation.
+__C.roi_ss_sigma = 1.2
+# Minimum component size for felzenszwalb segmentation.
+__C.roi_ss_min_size = 20
+# image size used for ROI generation
+__C.roi_ss_img_size = 200
+# minimum relative width/height of an ROI
+__C.roi_min_side_rel = 0.01
+# maximum relative width/height of an ROI
+__C.roi_max_side_rel = 1.0
+# minimum relative area of an ROI
+__C.roi_min_area_rel = 0.0001
+# maximum relative area of an ROI
+__C.roi_max_area_rel = 0.9
+# maximum aspect ratio of an ROI vertically and horizontally
+__C.roi_max_aspect_ratio = 4.0
+# aspect ratios of ROIs for uniform grid ROIs
+__C.roi_grid_aspect_ratios = [1.0, 2.0, 0.5]
 
 # For reproducibility
 __C.RND_SEED = 3

@@ -5,7 +5,7 @@
 This folder contains an end-to-end solution for using Faster R-CNN to perform object detection. 
 The original research paper for Faster R-CNN can be found at [https://arxiv.org/abs/1506.01497](https://arxiv.org/abs/1506.01497).
 Base models that are supported by the current configuration are AlexNet and VGG16. 
-Two image set that are preconfigured are Pascal VOC 2007 and Grocery. 
+Two image sets that are preconfigured are Pascal VOC 2007 and Grocery. 
 Other base models or image sets can be used by adding a configuration file similar to the examples in `utils/configs` and importing it in `run_faster_rcnn.py`.
 
 ## Running the example
@@ -134,4 +134,4 @@ Most of the code is in `FasterRCNN_train.py` and `FasterRCNN_eval.py` (and `Exam
 
 ### Algorithm 
 
-All details regarding the Faster R-CNN algortihm can be found in the original research paper: [https://arxiv.org/abs/1506.01497](https://arxiv.org/abs/1506.01497).
+All details regarding the Faster R-CNN algorithm can be found in the original research paper: [https://arxiv.org/abs/1506.01497](https://arxiv.org/abs/1506.01497).

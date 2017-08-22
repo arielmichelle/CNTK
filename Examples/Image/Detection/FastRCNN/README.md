@@ -5,7 +5,7 @@
 This folder contains an end-to-end solution for using Fast R-CNN to perform object detection. 
 The original research paper for Fast R-CNN can be found at [https://arxiv.org/abs/1504.08083](https://arxiv.org/abs/1504.08083).
 Base models that are supported by the current configuration are AlexNet and VGG16. 
-Two image set that are preconfigured are Pascal VOC 2007 and Grocery. 
+Two image sets that are preconfigured are Pascal VOC 2007 and Grocery. 
 Other base models or image sets can be used by adding a configuration file similar to the examples in `utils/configs` and importing it in `run_fast_rcnn.py`.
 
 ## Running the example
@@ -22,7 +22,7 @@ The code uses prebuild Cython modules for parts of the region proposal network (
 These binaries are contained in the repository for Python 3.5 under Windows and Python 3.4 under Linux.
 If you require other versions please follow the instructions at [https://github.com/rbgirshick/py-faster-rcnn](https://github.com/rbgirshick/py-faster-rcnn#installation-sufficient-for-the-demo).
 
-If you want to use the debug output you need to run ' pip install pydot_ng) ([website](https://pypi.python.org/pypi/pydot-ng)) and install [graphviz](http://graphviz.org/) (GraphViz executable has to be in the system’s PATH) to be able to plot the CNTK graphs.
+If you want to use the debug output you need to run `pip install pydot_ng` ([website](https://pypi.python.org/pypi/pydot-ng)) and install [graphviz](http://graphviz.org/) (GraphViz executable has to be in the system’s PATH) to be able to plot the CNTK graphs.
 
 ### Getting the data and AlexNet model
 
@@ -110,4 +110,4 @@ Most of the code is in `FastRCNN_train.py` and `FastRCNN_eval.py` (and `Examples
 
 ### Algorithm 
 
-All details regarding the Fast R-CNN algortihm can be found in the original research paper: [https://arxiv.org/abs/1504.08083](https://arxiv.org/abs/1504.08083).
+All details regarding the Fast R-CNN algorithm can be found in the original research paper: [https://arxiv.org/abs/1504.08083](https://arxiv.org/abs/1504.08083).

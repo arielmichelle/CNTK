@@ -4,10 +4,32 @@
 # for full license information.
 # ==============================================================================
 
-import os
+import os, sys
 import numpy as np
 import utils.od_utils as od
 from utils.config_helpers import merge_configs
+
+available_detectors = ['FastRCNN', 'FasterRCNN']
+
+def get_detector_name(args):
+    detector_name = None
+    default_detector = 'FasterRCNN'
+    if len(args) != 2:
+        print("Please provide a detector name as the single argument. Usage:")
+        print("    python DetectionDemo.py <detector_name>")
+        print("Available detectors: {}".format(available_detectors))
+    else:
+        detector_name = args[1]
+        if not any(detector_name == x for x in available_detectors):
+            print("Unknown detector: {}.".format(detector_name))
+            print("Available detectors: {}".format(available_detectors))
+            detector_name = None
+
+    if detector_name is None:
+        print("Using default detector: {}".format(default_detector))
+        return default_detector
+    else:
+        return detector_name
 
 def get_configuration(detector_name):
     # load configs for detector, base network and data set
@@ -29,7 +51,9 @@ def get_configuration(detector_name):
 
 if __name__ == '__main__':
     # Currently supported detectors: 'FastRCNN', 'FasterRCNN'
-    cfg = get_configuration('FasterRCNN')
+    args = sys.argv
+    detector_name = get_detector_name(args)
+    cfg = get_configuration(detector_name)
 
     # train and test
     eval_model = od.train_object_detector(cfg)
