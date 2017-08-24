@@ -20,6 +20,7 @@ from utils.rpn.anchor_target_layer import AnchorTargetLayer as CntkAnchorTargetL
 from utils.caffe_layers.proposal_layer import ProposalLayer as CaffeProposalLayer
 from utils.caffe_layers.proposal_target_layer import ProposalTargetLayer as CaffeProposalTargetLayer
 from utils.caffe_layers.anchor_target_layer import AnchorTargetLayer as CaffeAnchorTargetLayer
+from FasterRCNN.config import cfg
 
 def test_proposal_layer():
     cls_prob_shape_cntk = (18,61,61)
@@ -38,7 +39,21 @@ def test_proposal_layer():
     rpn_bbox_var = input_variable(rpn_bbox_shape)
     dims_info_var = input_variable(dims_info_shape)
 
-    cntk_layer = user_function(CntkProposalLayer(cls_prob_var, rpn_bbox_var, dims_info_var))
+    layer_config = {}
+    layer_config["feat_stride"] = 16
+    layer_config["scales"] = [8, 16, 32]
+
+    layer_config["train_pre_nms_topN"] = cfg["TRAIN"].RPN_PRE_NMS_TOP_N
+    layer_config["train_post_nms_topN"] = cfg["TRAIN"].RPN_POST_NMS_TOP_N
+    layer_config["train_nms_thresh"] = float(cfg["TRAIN"].RPN_NMS_THRESH)
+    layer_config["train_min_size"] = float(cfg["TRAIN"].RPN_MIN_SIZE)
+
+    layer_config["test_pre_nms_topN"] = cfg["TEST"].RPN_PRE_NMS_TOP_N
+    layer_config["test_post_nms_topN"] = cfg["TEST"].RPN_POST_NMS_TOP_N
+    layer_config["test_nms_thresh"] = float(cfg["TEST"].RPN_NMS_THRESH)
+    layer_config["test_min_size"] = float(cfg["TEST"].RPN_MIN_SIZE)
+
+    cntk_layer = user_function(CntkProposalLayer(cls_prob_var, rpn_bbox_var, dims_info_var, layer_config))
     state, cntk_output = cntk_layer.forward({cls_prob_var: [cls_prob], rpn_bbox_var: [rpn_bbox_pred], dims_info_var: dims_input})
     cntk_proposals = cntk_output[next(iter(cntk_output))][0]
 
@@ -202,3 +217,6 @@ def test_anchor_target_layer():
     assert np.allclose(cntk_bbox_targets, caffe_bbox_targets, rtol=0.0, atol=0.0)
     assert np.allclose(cntk_bbox_inside_w, caffe_bbox_inside_w, rtol=0.0, atol=0.0)
     print("Verified AnchorTargetLayer")
+
+if __name__ == '__main__':
+    test_proposal_layer()

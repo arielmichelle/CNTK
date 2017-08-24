@@ -26,7 +26,7 @@ __C.CNTK.TRAIN_E2E = True
 # set to 'True' to use deterministic algorithms
 __C.CNTK.FORCE_DETERMINISTIC = False
 # set to 'True' to run only a single epoch
-__C.CNTK.FAST_MODE = True
+__C.CNTK.FAST_MODE = False
 # Debug parameters
 __C.CNTK.DEBUG_OUTPUT = False
 __C.CNTK.GRAPH_TYPE = "png" # "png" or "pdf"
