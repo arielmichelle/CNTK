@@ -20,9 +20,9 @@ __C.CNTK.MAKE_MODE = False
 # set to 'True' to use deterministic algorithms
 __C.CNTK.FORCE_DETERMINISTIC = False
 # set to 'True' to run only a single epoch
-__C.CNTK.FAST_MODE = False
+__C.CNTK.FAST_MODE = True
 # Debug parameters
-__C.CNTK.DEBUG_OUTPUT = True
+__C.CNTK.DEBUG_OUTPUT = False
 __C.CNTK.GRAPH_TYPE = "png" # "png" or "pdf"
 
 # Learning parameters
@@ -35,7 +35,7 @@ __C.CNTK.LR_PER_SAMPLE = [0.001] * 10 + [0.0001] * 10 + [0.00001]
 __C.CNTK.BIAS_LR_MULT = 2.0
 
 # Number of regions of interest [ROIs] proposals
-__C.NUM_ROI_PROPOSALS = 200 # use 2000 or more for good results
+__C.NUM_ROI_PROPOSALS = 100 # use 2000 or more for good results
 # minimum width and height for proposals in pixels
 __C.PROPOSALS_MIN_W = 20
 __C.PROPOSALS_MIN_H = 20
@@ -65,7 +65,7 @@ __C.RESULTS_NMS_THRESHOLD = 0.5
 __C.RESULTS_NMS_CONF_THRESHOLD = 0.0
 
 # Enable plotting of results generally / also plot background boxes / also plot unregressed boxes
-__C.VISUALIZE_RESULTS = True
+__C.VISUALIZE_RESULTS = False
 __C.DRAW_NEGATIVE_ROIS = False
 __C.DRAW_UNREGRESSED_ROIS = False
 # only for plotting results: boxes with a score lower than this threshold will be considered background

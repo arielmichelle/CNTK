@@ -50,7 +50,7 @@ def test_detection_demo(device_id):
         extPath = os.environ['CNTK_EXTERNAL_TESTDATA_SOURCE_DIRECTORY']
         cfg['BASE_MODEL_PATH'] = os.path.join(extPath, "PreTrainedModels", "AlexNet", "v0", "AlexNet.model")
     else:
-        cfg['BASE_MODEL_PATH'] = os.path.join(abs_path, *"../../../../Examples/Image/PretrainedModels/AlexNet.model".split("/"))
+        cfg['BASE_MODEL_PATH'] = os.path.join(abs_path, *"../../../../PretrainedModels/AlexNet.model".split("/"))
 
     # train and test
     eval_model = od.train_object_detector(cfg)
@@ -64,6 +64,3 @@ def test_detection_demo(device_id):
     regressed_rois, cls_probs = od.evaluate_single_image(eval_model, img_path, cfg)
     bboxes, labels, scores = od.filter_results(regressed_rois, cls_probs, cfg)
     assert bboxes.shape[0] == labels.shape[0]
-
-if __name__ == '__main__':
-    test_detection_demo(0)

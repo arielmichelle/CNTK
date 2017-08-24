@@ -95,8 +95,3 @@ def test_fasterrcnn_grocery_training_4stage(device_id):
 @win35_linux34
 def test_fasterrcnn_grocery_training_e2e(device_id, e2e=True):
     _, _, _ = run_fasterrcnn_grocery_training(device_id, e2e = True)
-
-if __name__ == '__main__':
-    #run_fasterrcnn_grocery_training(0, e2e = False)
-    #run_fasterrcnn_grocery_training(0, e2e = True)
-    test_native_fasterrcnn_eval('c:/Temp/', 0)

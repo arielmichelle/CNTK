@@ -60,7 +60,7 @@ def prepare(cfg, use_arg_parser=True):
     cfg["DATA"].TEST_ROI_FILE = os.path.join(data_path, cfg["DATA"].TEST_ROI_FILE)
 
     cfg['MODEL_PATH'] = os.path.join(cfg.OUTPUT_PATH, "fast_rcnn_eval_{}.model".format(cfg["MODEL"].BASE_MODEL))
-    cfg['BASE_MODEL_PATH'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "PretrainedModels",
+    cfg['BASE_MODEL_PATH'] = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "PretrainedModels",
                                           cfg["MODEL"].BASE_MODEL_FILE)
 
     cfg["DATA"].CLASSES = parse_class_map_file(cfg["DATA"].CLASS_MAP_FILE)

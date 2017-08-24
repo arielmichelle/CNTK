@@ -70,6 +70,3 @@ def test_fastrcnnpy_grocery_training(device_id):
     meanAP = np.nanmean(list(eval_results.values()))
     print('meanAP={}'.format(meanAP))
     assert meanAP > 0.01
-
-if __name__ == '__main__':
-    test_fastrcnnpy_grocery_training(0)
