@@ -68,6 +68,7 @@ def run_fasterrcnn_grocery_training(device_id, e2e):
 
 @win35_linux34
 def test_native_fasterrcnn_eval(tmpdir, device_id):
+    from FasterRCNN.FasterRCNN_eval import compute_test_set_aps
     if cntk_device(device_id).type() != DeviceKind_GPU:
         pytest.skip('test only runs on GPU')  # it runs very slow in CPU
     try_set_default_device(cntk_device(device_id))
