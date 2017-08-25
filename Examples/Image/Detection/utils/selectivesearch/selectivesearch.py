@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-from past.builtins import cmp
+#from past.builtins import cmp
 import skimage.io
 import skimage.feature
 import skimage.color
@@ -232,7 +232,10 @@ def _merge_regions(r1, r2):
     return rt
 
 def mycmp(x, y): 
-    return cmp(x[1],y[1])
+    # was: return cmp(x[1],y[1])
+    # replaced this according to https://docs.python.org/3/whatsnew/3.0.html
+    # -- you could use the expression (a > b) - (a < b) as the equivalent for cmp(a, b). --
+    return (x[1] > y[1]) - (x[1] < y[1])
     
 def cmp_to_key(mycmp):
     'Convert a cmp= function into a key= function'

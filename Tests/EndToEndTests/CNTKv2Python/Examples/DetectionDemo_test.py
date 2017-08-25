@@ -60,7 +60,10 @@ def test_detection_demo(device_id):
     assert meanAP > 0.01
 
     # detect objects in single image
-    img_path = os.path.join(grocery_path, r"testImages\WIN_20160803_11_28_42_Pro.jpg")
+    img_path = os.path.join(grocery_path, "testImages", "WIN_20160803_11_28_42_Pro.jpg")
     regressed_rois, cls_probs = od.evaluate_single_image(eval_model, img_path, cfg)
     bboxes, labels, scores = od.filter_results(regressed_rois, cls_probs, cfg)
     assert bboxes.shape[0] == labels.shape[0]
+
+if __name__ == '__main__':
+    test_detection_demo(0)
