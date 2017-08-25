@@ -26,7 +26,6 @@ prepare_alexnet_v0_model()
 
 from FastRCNN.install_data_and_model import create_grocery_mappings
 create_grocery_mappings(grocery_path)
-from utils.config_helpers import merge_configs
 
 win35_linux34 = pytest.mark.skipif(not ((sys.platform == 'win32' and sys.version_info[:2] == (3,5)) or
                                         (sys.platform != 'win32' and sys.version_info[:2] == (3,4))),
@@ -34,6 +33,7 @@ win35_linux34 = pytest.mark.skipif(not ((sys.platform == 'win32' and sys.version
 
 @win35_linux34
 def test_fastrcnnpy_grocery_training(device_id):
+    from utils.config_helpers import merge_configs
     from FastRCNN.config import cfg as detector_cfg
     from utils.configs.AlexNet_config import cfg as network_cfg
     from utils.configs.Grocery_config import cfg as dataset_cfg

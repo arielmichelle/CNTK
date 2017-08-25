@@ -26,14 +26,14 @@ prepare_alexnet_v0_model()
 
 from FastRCNN.install_data_and_model import create_grocery_mappings
 create_grocery_mappings(grocery_path)
-from utils.config_helpers import merge_configs
-from FasterRCNN.FasterRCNN_eval import compute_test_set_aps
 
 win35_linux34 = pytest.mark.skipif(not ((sys.platform == 'win32' and sys.version_info[:2] == (3,5)) or
                                         (sys.platform != 'win32' and sys.version_info[:2] == (3,4))),
                                    reason="it runs currently only in windows-py35 and linux-py34 due to precompiled cython modules")
 
 def run_fasterrcnn_grocery_training(device_id, e2e):
+    from FasterRCNN.FasterRCNN_eval import compute_test_set_aps
+    from utils.config_helpers import merge_configs
     from FasterRCNN.config import cfg as detector_cfg
     from utils.configs.AlexNet_config import cfg as network_cfg
     from utils.configs.Grocery_config import cfg as dataset_cfg
