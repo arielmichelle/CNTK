@@ -51,9 +51,9 @@ def run_fasterrcnn_grocery_training(device_id, e2e):
     externalData = 'CNTK_EXTERNAL_TESTDATA_SOURCE_DIRECTORY' in os.environ
     if externalData:
         extPath = os.environ['CNTK_EXTERNAL_TESTDATA_SOURCE_DIRECTORY']
-        model_file = os.path.join(extPath, "PreTrainedModels", "AlexNet", "v0", "AlexNet.model")
+        model_file = os.path.join(extPath, "PreTrainedModels", "AlexNet", "v1", "AlexNet_ImageNet_Caffe.model")
     else:
-        model_file = os.path.join(abs_path, *"../../../../PretrainedModels/AlexNet.model".split("/"))
+        model_file = os.path.join(abs_path, *"../../../../PretrainedModels/AlexNet_ImageNet_Caffe.model".split("/"))
 
     from FasterRCNN.FasterRCNN_train import prepare, train_faster_rcnn
 
@@ -89,9 +89,9 @@ def test_native_fasterrcnn_eval(tmpdir, device_id):
     assert abs(meanAP_python - meanAP_native) < 0.1
 
 @win35_linux34
-def test_fasterrcnn_grocery_training_4stage(device_id):
-    _, _, _ = run_fasterrcnn_grocery_training(device_id, e2e = False)
+def test_fasterrcnn_grocery_training_e2e(device_id):
+    _, _, _ = run_fasterrcnn_grocery_training(device_id, e2e = True)
 
 @win35_linux34
-def test_fasterrcnn_grocery_training_e2e(device_id, e2e=True):
-    _, _, _ = run_fasterrcnn_grocery_training(device_id, e2e = True)
+def test_fasterrcnn_grocery_training_4stage(device_id):
+    _, _, _ = run_fasterrcnn_grocery_training(device_id, e2e = False)
