@@ -20,21 +20,22 @@ abs_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(abs_path)
 sys.path.append(os.path.join(abs_path, "..", "..", "..", "..", "Examples", "Image", "Detection"))
 
-from prepare_test_data import prepare_Grocery_data, prepare_alexnet_v0_model
-grocery_path = prepare_Grocery_data()
-prepare_alexnet_v0_model()
-
-from FastRCNN.install_data_and_model import create_grocery_mappings
-create_grocery_mappings(grocery_path)
-from DetectionDemo import get_configuration
-import utils.od_utils as od
-
 win35_linux34 = pytest.mark.skipif(not ((sys.platform == 'win32' and sys.version_info[:2] == (3,5)) or
                                         (sys.platform != 'win32' and sys.version_info[:2] == (3,4))),
                                    reason="it runs currently only in windows-py35 and linux-py34 due to precompiled cython modules")
 
 @win35_linux34
 def test_detection_demo(device_id):
+    from prepare_test_data import prepare_Grocery_data, prepare_alexnet_v0_model
+    grocery_path = prepare_Grocery_data()
+    prepare_alexnet_v0_model()
+
+    from FastRCNN.install_data_and_model import create_grocery_mappings
+    create_grocery_mappings(grocery_path)
+
+    from DetectionDemo import get_configuration
+    import utils.od_utils as od
+
     cfg = get_configuration('FasterRCNN')
     cfg["CNTK"].FORCE_DETERMINISTIC = True
     cfg["CNTK"].DEBUG_OUTPUT = False
