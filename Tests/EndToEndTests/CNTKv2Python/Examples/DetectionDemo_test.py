@@ -64,6 +64,3 @@ def test_detection_demo(device_id):
     regressed_rois, cls_probs = od.evaluate_single_image(eval_model, img_path, cfg)
     bboxes, labels, scores = od.filter_results(regressed_rois, cls_probs, cfg)
     assert bboxes.shape[0] == labels.shape[0]
-
-if __name__ == '__main__':
-    test_detection_demo(0)

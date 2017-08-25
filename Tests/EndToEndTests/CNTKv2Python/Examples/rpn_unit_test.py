@@ -22,6 +22,11 @@ from utils.caffe_layers.proposal_target_layer import ProposalTargetLayer as Caff
 from utils.caffe_layers.anchor_target_layer import AnchorTargetLayer as CaffeAnchorTargetLayer
 from FasterRCNN.config import cfg
 
+win35_linux34 = pytest.mark.skipif(not ((sys.platform == 'win32' and sys.version_info[:2] == (3,5)) or
+                                        (sys.platform != 'win32' and sys.version_info[:2] == (3,4))),
+                                   reason="it runs currently only in windows-py35 and linux-py34 due to precompiled cython modules")
+
+@win35_linux34
 def test_proposal_layer():
     cls_prob_shape_cntk = (18,61,61)
     cls_prob_shape_caffe = (18,61,61)
@@ -74,6 +79,7 @@ def test_proposal_layer():
     assert np.allclose(cntk_proposals, caffe_proposals, rtol=0.0, atol=0.0)
     print("Verified ProposalLayer")
 
+@win35_linux34
 def test_proposal_target_layer():
     num_rois = 400
     all_rois_shape_cntk = (num_rois,4)
@@ -162,6 +168,7 @@ def test_proposal_target_layer():
     assert np.allclose(cntk_bbox_inside_weights, caffe_bbox_inside_weights, rtol=0.0, atol=0.0)
     print("Verified ProposalTargetLayer")
 
+@win35_linux34
 def test_anchor_target_layer():
     rpn_cls_score_shape_cntk = (1, 18, 61, 61)
     num_gt_boxes = 50
@@ -217,6 +224,3 @@ def test_anchor_target_layer():
     assert np.allclose(cntk_bbox_targets, caffe_bbox_targets, rtol=0.0, atol=0.0)
     assert np.allclose(cntk_bbox_inside_w, caffe_bbox_inside_w, rtol=0.0, atol=0.0)
     print("Verified AnchorTargetLayer")
-
-if __name__ == '__main__':
-    test_proposal_layer()
