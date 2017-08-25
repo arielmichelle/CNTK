@@ -20,7 +20,7 @@ __C.CNTK.MAKE_MODE = False
 # set to 'True' to use deterministic algorithms
 __C.CNTK.FORCE_DETERMINISTIC = False
 # set to 'True' to run only a single epoch
-__C.CNTK.FAST_MODE = True
+__C.CNTK.FAST_MODE = False
 # Debug parameters
 __C.CNTK.DEBUG_OUTPUT = False
 __C.CNTK.GRAPH_TYPE = "png" # "png" or "pdf"
@@ -73,7 +73,7 @@ __C.RESULTS_BGR_PLOT_THRESHOLD = 0.1
 
 # roi proposal parameters for selective search, grid and filtering
 # use selective search implementation from dlib (requires dlib package)
-__C.use_dlib_proposals = True
+__C.use_dlib_proposals = False
 # Higher means larger clusters in felzenszwalb segmentation.
 __C.roi_ss_scale = 100
 # Width of Gaussian kernel for felzenszwalb segmentation.

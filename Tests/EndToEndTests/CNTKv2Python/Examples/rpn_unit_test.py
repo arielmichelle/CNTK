@@ -5,22 +5,13 @@
 # ==============================================================================
 
 import os, sys
+import pytest
+import numpy as np
+from cntk import user_function
+from cntk.ops import input_variable
 abs_path = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(abs_path))
 sys.path.append(os.path.join(abs_path, "..", "..", "..", "..", "Examples", "Image", "Detection"))
-
-import pytest
-import numpy as np
-import cntk
-from cntk import user_function
-from cntk.ops import input_variable
-from utils.rpn.proposal_layer import ProposalLayer as CntkProposalLayer
-from utils.rpn.proposal_target_layer import ProposalTargetLayer as CntkProposalTargetLayer
-from utils.rpn.anchor_target_layer import AnchorTargetLayer as CntkAnchorTargetLayer
-from utils.caffe_layers.proposal_layer import ProposalLayer as CaffeProposalLayer
-from utils.caffe_layers.proposal_target_layer import ProposalTargetLayer as CaffeProposalTargetLayer
-from utils.caffe_layers.anchor_target_layer import AnchorTargetLayer as CaffeAnchorTargetLayer
-from FasterRCNN.config import cfg
 
 win35_linux34 = pytest.mark.skipif(not ((sys.platform == 'win32' and sys.version_info[:2] == (3,5)) or
                                         (sys.platform != 'win32' and sys.version_info[:2] == (3,4))),
@@ -28,6 +19,10 @@ win35_linux34 = pytest.mark.skipif(not ((sys.platform == 'win32' and sys.version
 
 @win35_linux34
 def test_proposal_layer():
+    from utils.rpn.proposal_layer import ProposalLayer as CntkProposalLayer
+    from utils.caffe_layers.proposal_layer import ProposalLayer as CaffeProposalLayer
+    from FasterRCNN.config import cfg
+
     cls_prob_shape_cntk = (18,61,61)
     cls_prob_shape_caffe = (18,61,61)
     rpn_bbox_shape = (36, 61, 61)
@@ -81,6 +76,9 @@ def test_proposal_layer():
 
 @win35_linux34
 def test_proposal_target_layer():
+    from utils.rpn.proposal_target_layer import ProposalTargetLayer as CntkProposalTargetLayer
+    from utils.caffe_layers.proposal_target_layer import ProposalTargetLayer as CaffeProposalTargetLayer
+
     num_rois = 400
     all_rois_shape_cntk = (num_rois,4)
     num_gt_boxes = 50
@@ -170,6 +168,9 @@ def test_proposal_target_layer():
 
 @win35_linux34
 def test_anchor_target_layer():
+    from utils.rpn.anchor_target_layer import AnchorTargetLayer as CntkAnchorTargetLayer
+    from utils.caffe_layers.anchor_target_layer import AnchorTargetLayer as CaffeAnchorTargetLayer
+
     rpn_cls_score_shape_cntk = (1, 18, 61, 61)
     num_gt_boxes = 50
     gt_boxes_shape_cntk = (num_gt_boxes,5)

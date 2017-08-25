@@ -8,15 +8,28 @@ from utils.rpn.bbox_transform import bbox_transform
 from utils.cython_modules.cython_bbox import bbox_overlaps
 
 random_seed = 23
+global ss_lib_loaded, dlib_available, selective_search, find_candidate_object_locations
+ss_lib_loaded = False
+dlib_available = False
 
-try:
-    from dlib import find_candidate_object_locations
-    dlib_available = True
-except:
-    dlib_available = False
-    print("Warning: 'dlib' package is not available for roi proposals. Run 'pip install dlib' if you want to use it.")
+def load_selective_search_lib(use_dlib):
+    if(use_dlib):
+        global dlib_available, find_candidate_object_locations
+        try:
+            from dlib import find_candidate_object_locations as algo
+            find_candidate_object_locations = algo
+            dlib_available = True
+        except:
+            dlib_available = False
+            print("Warning: 'dlib' package is not available for roi proposals. Run 'pip install dlib' if you want to use it.")
 
-from utils.selectivesearch.selectivesearch import selective_search
+    if not dlib_available:
+        global selective_search
+        from utils.selectivesearch.selectivesearch import selective_search as algo
+        selective_search = algo
+
+    global ss_lib_loaded
+    ss_lib_loaded = True
 
 def compute_image_stats(img_width, img_height, pad_width, pad_height):
     do_scale_w = img_width > img_height
@@ -91,6 +104,7 @@ def compute_proposals(img, num_proposals, cfg):
     roi_max_area = roi_max_area_rel * roi_ss_img_size * roi_ss_img_size
 
     rects = []
+    if not ss_lib_loaded: load_selective_search_lib(use_dlib)
     if use_dlib and dlib_available:
         all_rects = []
         find_candidate_object_locations(img, all_rects, min_size=int(roi_min_area))

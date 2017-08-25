@@ -15,7 +15,7 @@ Other base models or image sets can be used by adding a configuration file simil
 To run Faster R-CNN you need a CNTK Python environment. Install the following additional packages:
 
 ```
-pip install opencv-python easydict pyyaml future
+pip install opencv-python easydict pyyaml scikit-image
 ```
 
 The code uses prebuild Cython modules for parts of the region proposal network (see `Examples/Image/Detection/utils/cython_modules`). 
